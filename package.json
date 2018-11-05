@@ -1,0 +1,23 @@
+{
+  "name": "justmap",
+  "version": "1.0.1",
+  "description": "just simple sql map.",
+  "main": "justmap.js",
+  "author": {
+    "name": "gray",
+    "email": "gray.wen@outlook.com",
+    "url": "https://github.com/gray-wen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gray-wen/justmap.git"
+  },
+  "scripts": {
+    "test": "node ./test/justMapTest.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "antlr4": "^4.7.1",
+    "pg": "^7.6.0"
+  }
+}

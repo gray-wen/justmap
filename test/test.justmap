@@ -1,0 +1,20 @@
+#select getUser:
+    select * from user_profile where 1=1
+    and id=@id
+
+#insert createUser:
+	INSERT INTO user_profile(wx_open_id, create_time, wx_user_info)
+	VALUES (@wx_open_id,@create_time,@wx_user_info);
+
+#sql orderby:
+	order by @orderBy limit @to offset @from
+
+#select getUserList:
+    select * from user_profile where 1=1
+	and id=@id
+	#if(@ids && @ids.length > 0){
+		#for(var i = 0; i < @ids.length; i++) {
+			or id= @ids[i]
+		}
+	}
+	#include(orderby)
