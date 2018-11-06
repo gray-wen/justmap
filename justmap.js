@@ -8,7 +8,7 @@ const { JustMapLoader } = require('./lib/loader/JustMapLoader');
 const { JustMapHelper } = require('./lib/parser/JustMapHelper');
 
 function JustMap(connectionConfig) {
-    this.debug = true;
+    this.debug = false;
     this.pool = new pg.Pool(connectionConfig);
 }
 
@@ -31,7 +31,6 @@ function querySql(justMap, sql, values, callback) {
             }
         } else {
             client.query(sql, values, function (error, result) {
-                done();
                 if (error) throw error;
                 let endTime = new Date();
                 justMap.log('execute time:' + (endTime.getUTCMilliseconds() - startTime.getUTCMilliseconds()) + 'ms.');
@@ -42,23 +41,6 @@ function querySql(justMap, sql, values, callback) {
         }
     });
 }
-
-// function querySqlAsync(justMap, sql, values) {
-//     let startTime = new Date();
-//     return new Promise(function (resolve, reject) {
-//         let connect = await justMap.pool().connect();
-//         try {
-//             let result = await connect.query(sql, values);
-//             justMap.log(sql);
-//             let endTime = new Date();
-//             justMap.log('execute time:' + (endTime.getUTCMilliseconds() - startTime.getUTCMilliseconds()) + 'ms.');
-//             resolve(result);
-//         }
-//         catch (error) {
-//             throw error;
-//         }
-//     });
-// }
 
 JustMap.parse = function (input) {
     var chars = new antlr4.InputStream(input);

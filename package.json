@@ -1,8 +1,10 @@
 {
-  "name": "justmap",
-  "version": "1.0.1",
+  "name": "justmaps",
+  "version": "0.0.1",
   "description": "just simple sql map.",
+  "license": "MIT",
   "main": "justmap.js",
+  "types": "justmap.d.ts",
   "author": {
     "name": "gray",
     "email": "gray.wen@outlook.com",
@@ -15,7 +17,6 @@
   "scripts": {
     "test": "node ./test/justMapTest.js"
   },
-  "license": "MIT",
   "dependencies": {
     "antlr4": "^4.7.1",
     "pg": "^7.6.0"

@@ -1,20 +1,25 @@
-#select getUser:
-    select * from user_profile where 1=1
-    and id=@id
-
-#insert createUser:
-	INSERT INTO user_profile(wx_open_id, create_time, wx_user_info)
-	VALUES (@wx_open_id,@create_time,@wx_user_info);
-
-#sql orderby:
+#sql OrderBy:
 	order by @orderBy limit @to offset @from
 
-#select getUserList:
-    select * from user_profile where 1=1
-	and id=@id
+#insert CreateTestData:
+	insert into test_table(datas)
+	values (@datas);
+
+#select GetTestData:
+	select * from test_table
+	where id = @id
+
+#select GetTestDataList:
+	select * from test_table where 1=1
+	and id=@@id
+	and to_date(datas->>'create_time','YYYY-MM-DD') = @create_time
+	or datas->>'name' = @name
 	#if(@ids && @ids.length > 0){
 		#for(var i = 0; i < @ids.length; i++) {
-			or id= @ids[i]
+			or id=@ids[i]
 		}
 	}
-	#include(orderby)
+	#include(OrderBy)
+
+#update UpdateTestData:
+	update test_table set datas = datas - 'name' || {\"name\":@name} where id = @id;

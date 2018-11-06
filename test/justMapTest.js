@@ -13,24 +13,30 @@ var justMap = new JustMap(connectionConfig);
 
 try {
     (async () => {
-        justMap.query('select * from user_profile where id in ($1)', [63], function (error, results) {
-            console.log("callback", results);
-        });
-
-        let results = await justMap.queryAsync('select * from user_profile where id in ($1)', [63]);
-        console.log(results);
 
         await JustMap.loadJustMapsAsync(Path.resolve(__dirname));
 
-        results = await justMap.justQueryAsync('getUser', {
-            id: 63
+        let results;
+
+        results = await justMap.justQueryAsync('CreateTestData', {
+            datas: {
+                name: 'test' + Math.random(),
+                email: 'test@outlook.com',
+                create_time: '2018-11-06',
+            }
         });
 
         console.log(results);
 
-        results = await justMap.justQueryAsync('getUserList', {
-            id: 63,
-            ids: [63, 64],
+        results = await justMap.justQueryAsync('GetTestData', {
+            id: 22
+        });
+
+        console.log(results);
+
+        results = await justMap.justQueryAsync('GetTestDataList', {
+            ids: [23, 24],
+            create_time: '2018-11-06',
             orderBy: 'id',
             from: 0,
             to: 10
@@ -38,21 +44,14 @@ try {
 
         console.log(results);
 
-        results = await justMap.justQueryAsync('createUser', {
-            wx_open_id: 'test',
-            create_time: new Date(),
-            wx_user_info: {
-                "nickName": "gray",
-                "gender": 1,
-                "language": "zh_CN",
-                "city": "Yueyang",
-                "province": "Hunan",
-                "country": "China",
-                "avatarUrl": "test"
-            }
+        bug
+        results = await justMap.justQueryAsync('UpdateTestData', {
+            id: 22,
+            name: 'testname',
         });
-        
+
         console.log(results);
+
     })().then(function () {
 
     });
