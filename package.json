@@ -1,7 +1,7 @@
 {
   "name": "justmaps",
-  "version": "0.0.1",
-  "description": "just simple sql map.",
+  "version": "0.0.2",
+  "description": "just simple postgreSQL map.",
   "license": "MIT",
   "main": "justmap.js",
   "types": "justmap.d.ts",

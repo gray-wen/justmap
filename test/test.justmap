@@ -21,5 +21,9 @@
 	}
 	#include(OrderBy)
 
-#update UpdateTestData:
-	update test_table set datas = datas - 'name' || {\"name\":@name} where id = @id;
+#update UpdateData:
+	update test_table set datas = @datas
+	where id=@id
+
+#update UpdateDataName:
+	update test_table set datas = datas - 'name' || {\"name\":@name} where id = @id

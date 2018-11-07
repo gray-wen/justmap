@@ -13,16 +13,16 @@ function JustMap(connectionConfig) {
 }
 
 function formatPostgresSql(sql) {
-    let index = 1;
-    let _sql = sql.replace(/\?/g, function () { return "$" + index++; });
+    var index = 1;
+    var _sql = sql.replace(/\?/g, function () { return "$" + index++; });
     return _sql;
 }
 
 function querySql(justMap, sql, values, callback) {
-    let startTime = new Date();
+    var startTime = new Date();
     sql = formatPostgresSql(sql);
     justMap.log(sql);
-    justMap.pool.connect(function (error, client, done) {
+    justMap.pool.connect(function (error, client) {
         if (error) {
             if (callback) {
                 callback(error);
@@ -32,7 +32,7 @@ function querySql(justMap, sql, values, callback) {
         } else {
             client.query(sql, values, function (error, result) {
                 if (error) throw error;
-                let endTime = new Date();
+                var endTime = new Date();
                 justMap.log('execute time:' + (endTime.getUTCMilliseconds() - startTime.getUTCMilliseconds()) + 'ms.');
                 if (callback) {
                     callback(null, result);
@@ -54,10 +54,9 @@ JustMap.parse = function (input) {
 }
 
 JustMap.emitSql = function (sqlId, _params) {
-    let _sqls = [];
-    let _values = [];
+    var _sqls = [], _values = [];
 
-    let func = JustMapHelper.getSqlFunction(sqlId);
+    var func = JustMapHelper.getSqlFunction(sqlId);
     if (func) {
         func(_params, _sqls, _values);
         return {
@@ -84,7 +83,7 @@ JustMap.prototype.query = function (sql, values, callback) {
 }
 
 JustMap.prototype.queryAsync = function (sql, values) {
-    let self = this;
+    var self = this;
     return new Promise(function (resolve, reject) {
         self.query(sql, values, function (error, result) {
             if (error) reject(error);
@@ -98,12 +97,12 @@ JustMap.prototype.justQuery = function (sqlId, values, callback) {
         throw new Error('Parameter \'sql\' requires a string!');
     }
 
-    let sql = JustMap.emitSql(sqlId, values);
+    var sql = JustMap.emitSql(sqlId, values);
     querySql(this, sql.sql, sql.values, callback);
 }
 
 JustMap.prototype.justQueryAsync = function (sqlId, values) {
-    let self = this;
+    var self = this;
     return new Promise(function (resolve, reject) {
         self.justQuery(sqlId, values, function (error, result) {
             if (error) return reject(error);
@@ -113,7 +112,7 @@ JustMap.prototype.justQueryAsync = function (sqlId, values) {
 }
 
 function _loadJustMap(path, callback) {
-    let stat = fs.statSync(path);
+    var stat = fs.statSync(path);
     if (stat) {
         if (stat.isFile()) {
             JustMapLoader.loadJustMapFile(path, JustMap.parse, callback);
@@ -133,5 +132,18 @@ JustMap.loadJustMapsAsync = function (path) {
     });
 }
 
+JustMap.prototype.destroy = function (callback) {
+    this.pool.end(callback);
+}
+
+JustMap.prototype.destroyAsync = function () {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        self.destroy(function (err, result) {
+            if (err) return reject(err);
+            return resolve(result);
+        });
+    });
+}
 
 module.exports.JustMap = JustMap;
