@@ -2,11 +2,11 @@ var Path = require('path');
 var { JustMap } = require('../justmap');
 
 var connectionConfig = {
-    host: "118.190.69.192",
+    host: "",
     port: 5432,
-    user: "development",
-    password: "d5Nu#|npkw+*WxU;O+c",
-    database: "phoenix",
+    user: "",
+    password: "",
+    database: "",
 };
 
 var justMap = new JustMap(connectionConfig);
