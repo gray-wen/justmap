@@ -20,5 +20,6 @@
   "dependencies": {
     "antlr4": "^4.7.1",
     "pg": "^7.6.0"
-  }
+  },
+  "devDependencies": {}
 }

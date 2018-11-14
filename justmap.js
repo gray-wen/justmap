@@ -22,7 +22,7 @@ function querySql(justMap, sql, values, callback) {
     var startTime = new Date();
     sql = formatPostgresSql(sql);
     justMap.log(sql);
-    justMap.pool.connect(function (error, client) {
+    justMap.pool.connect(function (error, client, done) {
         if (error) {
             if (callback) {
                 callback(error);
@@ -33,6 +33,7 @@ function querySql(justMap, sql, values, callback) {
             client.query(sql, values, function (error, result) {
                 if (error) throw error;
                 var endTime = new Date();
+                done();
                 justMap.log('execute time:' + (endTime.getUTCMilliseconds() - startTime.getUTCMilliseconds()) + 'ms.');
                 if (callback) {
                     callback(null, result);
